@@ -32,4 +32,36 @@ router.post("/addnote", fetch, [
     res.status(500).json(err.message);
   }
 })
+
+router.put("/editnote/:id", fetch, async (req, res) => {
+  const { title, description, tag } = req.body;
+  const newNote = {};
+  if (title) {
+    newNote.title = title;
+  }
+  if (description) {
+    newNote.description = description;
+  }
+  if (tag) {
+    newNote.tag = tag;
+  }
+  let note = await Notes.findById(req.params.id);
+  if (!note) {
+    return res.json({ success: false })
+  }
+  if (note.user.toString() !== req.user.id) {
+    return res.json({ success: false })
+  }
+  note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
+  res.json(note)
+})
+
+router.delete("/deletenote/:id", fetch, async (req, res) => {
+  const note = await Notes.findById(req.params.id)
+  if (note.user.toString() !== req.user.id) {
+    return res.json({ success: false })
+  }
+  await Notes.findByIdAndDelete(req.params.id)
+  res.json({ success: true })
+})
 module.exports = router;
