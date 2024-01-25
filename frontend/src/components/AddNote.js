@@ -23,6 +23,10 @@ const AddNote = () => {
                     <label for="desc">Description</label>
                     <input type="text" className="form-control" id="desc" placeholder="Enter Description" name="desc" onChange={onChange} value={text.desc} />
                 </div>
+                <div className="mb-3 form-group">
+                    <label for="tag">Tag</label>
+                    <input type="text" className="form-control" id="tag" placeholder="Enter Description" name="tag" onChange={onChange} value={text.desc} />
+                </div>
                 <button type="submit" className="btn btn-primary" onClick={handle}>Add Note</button>
             </form>
         </div>

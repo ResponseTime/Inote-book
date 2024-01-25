@@ -3,7 +3,7 @@ import NoteContext from "./noteContext";
 
 const NoteSate = (props) => {
     const notesInit = [{ "id": 2323, "title": "my title", "description": "my description" }, { "id": 2323, "title": "my title", "description": "my description" }, { "id": 25323, "title": "my title", "description": "my description" }, { "id": 234323, "title": "my title", "description": "my description" }]
-    const [notes, setNotes] = useState(notesInit)
+    const [notes, setNotes] = useState("")
     const get_ = async () => {
         const response = await fetch(url, {
             method: 'GET',
@@ -28,7 +28,15 @@ const NoteSate = (props) => {
         const json = response.json()
         setNotes(notes.concat(note))
     }
-    const delete_ = (id) => {
+    const delete_ = async (id) => {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': ""
+            }
+        })
+        const json = response.json()
         setNotes(notes.filter((note) => { return note.id !== id }))
     }
     const edit_ = async (id, title, description, tag) => {
