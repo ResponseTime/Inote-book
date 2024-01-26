@@ -41,22 +41,24 @@ const NoteSate = (props) => {
     }
     const edit_ = async (id, title, description, tag) => {
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': ""
             },
             body: JSON.stringify({ title, description, tag })
         })
-        const json = response.json()
-        for (let ind = 0; ind < notes.length; ind++) {
-            const ele = notes[ind];
+        const newNotes = JSON.parse(JSON.stringify(notes))
+        for (let ind = 0; ind < newNotes.length; ind++) {
+            const ele = newNotes[ind];
             if (ele.id === id) {
                 ele.title = title;
                 ele.description = description;
                 ele.tag = tag;
+                break;
             }
         }
+        setNotes(newNotes)
     }
     return (
         <NoteContext.Provider value={{ notes, add_, delete_, edit_ }}>
